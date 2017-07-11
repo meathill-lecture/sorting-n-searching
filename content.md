@@ -3,10 +3,12 @@ title: sorting and searching
 description: A tutorial for JavaScript sorting and searching
 -->
 
-sorting and searching
+### JavaScript 面试攻略
+
+排序与搜索
 =======
 
-[@meathill](https://weibo.com/meathill/)
+#### [@meathill](https://weibo.com/meathill/)
 
 <!-- page -->
 
@@ -16,15 +18,31 @@ sorting and searching
 
 ## 教学目标
 
-1. 
+1. 了解常见排序算法
+2. 了解算法复杂度的计算
+3. 学会解算法题
 
 <!-- page -->
 
 ## 课程大纲
 
-1. 
+1. 用冒泡排序热身吧
+2. 其它常见排序算法
+3. 搜索
+4. 来做几道算法题
+5. 课后作业
 
 <!-- page -->
+
+## 用冒泡排序热身吧
+
+<!-- page -->
+
+## 冒泡排序
+
+> 冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。
+
+<!-- section -->
 
 
 
@@ -36,4 +54,4 @@ Q&A
 
 参考阅读：
 
-* 
+*
