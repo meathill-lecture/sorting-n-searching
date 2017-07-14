@@ -27,10 +27,13 @@ description: A tutorial for JavaScript sorting and searching
 ## 课程大纲
 
 1. 用冒泡排序热身吧
-2. 其它常见排序算法
-3. 搜索
-4. 来做几道算法题
-5. 课后作业
+2. 然后试一下插入排序
+3. 接着是堆排序
+4. 再来是归并排序
+5. 最后看一看快排
+6. 变量类型转换
+7. 来做几道算法题
+8. 课后作业
 
 <!-- page -->
 
@@ -140,9 +143,11 @@ for (let i = 1, len = arr.length; i < len; i++) {
 * 最好情况，本身是降序数组，改为升序，每次只扫描一个数，结果运算 N - 1 次
 * 最差情况，本身是升序数组，每次都要全扫描，结果运算 (N^2 - N)/2 次，和冒泡一样
 
+不过，因为一直在原有数组上操作，所以其空间复杂度是 O(1)。
+
 <!-- section -->
 
-很多排序算法都有**最好情况**和**最差情况**，这也是我们挑选算法和做优化时必须注意的。
+很多排序算法都有 **最好情况** 和 **最差情况**，这也是我们挑选算法和做优化时必须注意的。
 
 <!-- page -->
 
@@ -208,15 +213,117 @@ for (let i = 1, len = arr.length; i < len; i++) {
 }
 ```
 
+<!-- section -->
+
+改造之后的“二分查找插入排序”的时间复杂度就变成：
+
+N * logN = O(NlogN)
+
+它不再有最好情况和最坏情况。
+
+其空间复杂度不变。
+
 <!-- page -->
 
-> 注意：我们所有的复杂度，都仅仅建立在算法之上，对于数组本身的操作，是没有包含在内的，所以，今天我们说的复杂度和实际复杂度都有出入。
+> 注意：我们所有的复杂度，都仅仅建立在算法之上，**没有包含数组本身的操作！**所以，今天我们说的复杂度和实际复杂度会有出入。
 
 > 具体的出入大小，需要看运行环境的实现。
 
 <!-- page -->
 
 ## 堆排序
+
+> 堆排序是利用“堆”这种数据结构的特性进行排序的算法。
+
+堆可以视作一棵完全二叉树，它满足：
+
+1. 任何节点最多有两个子节点（二叉树）
+2. 除了最底层意外，每一层都是满的（二叉树）
+3. 任意节点，它的值总是大于/小于它父节点的值（堆）
+4. 把它用一维数组表示，任意节点 i 的左节点位置是2i+1，右节点是 2i+2
+
+<!-- page -->
+
+如果有了堆，那么对其排序是很简单的：
+
+1. 取出根节点（最大/最小）
+2. 把最后一个节点放到根节点的位置上
+3. 调整顺序，使其恢复堆的状态
+4. 重复这个过程，直至完成排序
+
+<!-- section -->
+
+构造堆
+
+```javascript
+function maxHeapify(arr, index, heapSize) {
+  let max = index;
+  let left = index * 2 + 1;
+  let right = index * 2 + 2;
+
+  let big = right < heapSize && arr[right] > arr[left] ? right : left;
+
+  if (big < heapSize && arr[index] < arr[big]) {
+    max = big;
+  }
+
+  if (max !== index) {
+    swap(arr, max, index);
+    maxHeapify(arr, index, heapSize);
+  }
+}
+
+// 从最后一个父节点开始遍历，将其转化为“最大堆”
+for (let i = arr.length >> 1; i >= 0; i--) {
+  maxHeapify(arr, i, arr.length);
+}
+```
+
+<!-- section -->
+
+排序
+
+```javascript
+for (let i = arr.length - 1; i > 0; i--) {
+  swap(0, i);
+  maxHeapify(arr, 0, i - 1);
+}
+```
+
+<!-- section -->
+
+### 堆排序的时间复杂度
+
+因为构建堆和排序是分开的，所以可以分开计算，然后相加。
+
+#### 构建堆：
+
+1. 从 N/2 处开始构建
+2. 每个节点最大计算次数是：（总深度 - 节点深度） * 2
+2. 每个节点最小计算次数是：2
+3. （偷懒省去证明过程）所以时间复杂度是 O(N)
+
+<!-- section -->
+
+#### 排序：
+
+1. 每次从上到下调整，实际上是 logN
+2. 共计 N - 1 次，故为 （N - 1）logN
+
+#### 合并：
+
+(N - 1)logN + N ≈ NlogN
+
+<!-- section -->
+
+很明显，堆排序的时间复杂度是 O(1)。
+
+<!-- page -->
+
+## 堆排序带来的启示
+
+1. 合理构建数据结构可以改进算法
+2. 时间复杂度计算中，加法和乘法差距巨大
 
 <!-- page -->
 
@@ -264,7 +371,17 @@ Q&A
 
 <!-- page -->
 
+工具书：
+
+* [表达式与运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators)
+
+<!-- page -->
+
 参考阅读：
 
 * [深入了解javascript的sort方法](http://www.zhouhua.info/2015/06/18/quicksort/)
-* [快速排序](https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F)
+* [冒泡排序](https://zh.wikipedia.org/zh/冒泡排序)
+* [插入排序](https://zh.wikipedia.org/wiki/插入排序)
+* [堆排序](https://zh.wikipedia.org/wiki/堆排序)
+* [快速排序](https://zh.wikipedia.org/zh/快速排序)
+* [系统性学习与碎片化学习](http://blog.meathill.com/tech/systemic-vs-fragmentization.html)
