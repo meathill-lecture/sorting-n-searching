@@ -104,7 +104,7 @@ for (let i = 0, len = arr.length - 1; i < len; i++) {
 
 <!-- page -->
 
-## 其它排序方法
+## 继续研究排序
 
 <!-- page -->
 
@@ -217,7 +217,7 @@ for (let i = 1, len = arr.length; i < len; i++) {
 
 改造之后的“二分查找插入排序”的时间复杂度就变成：
 
-N * logN = O(NlogN)
+log1 + log2 + log3 + .... + logN ≈ O(NlogN)
 
 它不再有最好情况和最坏情况。
 
@@ -225,15 +225,19 @@ N * logN = O(NlogN)
 
 <!-- page -->
 
-> 注意：我们所有的复杂度，都仅仅建立在算法之上，**没有包含数组本身的操作！**所以，今天我们说的复杂度和实际复杂度会有出入。
+注意：我们所有的复杂度，都仅仅建立在算法之上，**没有包含数组本身的操作！**所以，今天我们说的复杂度和实际复杂度会有出入。
 
-> 具体的出入大小，需要看运行环境的实现。
+具体的出入大小，需要看运行环境的实现。
+
+仅就“二分查找插入排序”而言，移动数组元素的成本很高，所以它的事件复杂度并不低。
 
 <!-- page -->
 
 ## 堆排序
 
 > 堆排序是利用“堆”这种数据结构的特性进行排序的算法。
+
+<!-- section -->
 
 堆可以视作一棵完全二叉树，它满足：
 
@@ -261,7 +265,8 @@ function maxHeapify(arr, index, heapSize) {
   let left = index * 2 + 1;
   let right = index * 2 + 2;
 
-  let big = right < heapSize && arr[right] > arr[left] ? right : left;
+  let big = right < heapSize && arr[right] > arr[left] ?
+            right : left;
 
   if (big < heapSize && arr[index] < arr[big]) {
     max = big;
@@ -290,13 +295,19 @@ for (let i = arr.length - 1; i > 0; i--) {
 }
 ```
 
-<!-- section -->
+<!-- page -->
 
 ### 堆排序的时间复杂度
 
 因为构建堆和排序是分开的，所以可以分开计算，然后相加。
 
-#### 构建堆：
+```
+总复杂度 = 构建堆 + 排序
+```
+
+<!-- section -->
+
+构建堆：
 
 1. 从 N/2 处开始构建
 2. 每个节点最大计算次数是：（总深度 - 节点深度） * 2
@@ -305,12 +316,14 @@ for (let i = arr.length - 1; i > 0; i--) {
 
 <!-- section -->
 
-#### 排序：
+排序：
 
 1. 每次从上到下调整，实际上是 logN
 2. 共计 N - 1 次，故为 （N - 1）logN
 
-#### 合并：
+<!-- section -->
+
+合并：
 
 (N - 1)logN + N ≈ NlogN
 
@@ -322,8 +335,9 @@ for (let i = arr.length - 1; i > 0; i--) {
 
 ## 堆排序带来的启示
 
-1. 合理构建数据结构可以改进算法
-2. 时间复杂度计算中，加法和乘法差距巨大
+1. 算法和数据结构息息相关
+2. 合理构建数据结构可以改进算法
+3. 时间复杂度计算中，加法和乘法差距巨大
 
 <!-- page -->
 
@@ -333,23 +347,195 @@ for (let i = arr.length - 1; i > 0; i--) {
 
 ## 快速排序
 
+> 快速排序是分治法的一种体现。
+
+1. 挑一个元素，成为“基准”（pivot）
+2. 遍历数组，把小的挪到基准的左边，大的挪到基准的右边
+3. 递归的去处理两个子数组
+
+<!-- section -->
+
+我们通常使用“原地排序”（in-place）版本，即选定一个元素，把它移到最左边或最右边，然后遍历数组。或者干脆拿最左边或者最右边的元素作为基准元素。
+
+```javascript
+function quickSort(arr, left, right) {
+  let pivot = arr[left];
+  let current = left + 1;
+  for (let i = current; i <= right; i++) {
+    if (arr[i] <= pivot) {
+      swap(arr, i, current);
+      current++;
+    }
+  }
+  swap(arr, left, current);
+
+  quickSort(arr, left, current - 1);
+  quickSort(arr, current + 1, right);
+}
+```
+
+<!-- page -->
+
+最理想的情况下，快速排序的时间复杂度为 O(NlogN)：
+
+1. 每次扫描全部元素，为 O(N)
+2. 如果每次都能把数组均分，那么共遍历 logN 次
+3. 即 O(NlogN)
+
+<!-- section -->
+
+最坏的情况下，每次都选到一个边界值，时间复杂度就是 O(N<sup>2</sup>)（=冒泡）。
+
+<!-- section -->
+
+那么问题就是如何让数组均分。
+
+<!-- page -->
+
+一般来说，面对一个很随机的数组，可以取随机数。
+
+生产实践中，数组可能不那么随机，可以考虑“三数取中”。
+
+如果数组很长，可以隔一段取一个，然后对所有取出的值取中。
+
+<!-- section -->
+
+> 考虑一种极端情况：一个全部元素都相同的数组。
+
+沿用前面的“单向扫描法”，复杂度会衰弱到 O(N<sup>2</sup>)。
+
+此时最好用“双向扫描法”，可以恢复到 O(NlogN)：
+
+1. 从数组左侧扫描，遇到 `>= pivot`，停下
+2. 从数组右侧扫描，遇到 `<= pivot`，停下
+3. 交换两个值
+4. 继续从左侧扫描，重复 1~2
+
+<!-- section -->
+
+```javascript
+function quickSort(arr, left, right) {
+  let pivot = arr[left];
+  let i = current = left + 1;
+  let j = right;
+  while (i <= j) {
+    while(i <= right && arr[i] < pivot) {
+      i++;
+    }
+    while(x[j] > pivot) {
+      j--;
+    }
+    if (i <= j) {
+      swap(arr, i, j);
+    }
+  }
+  swap(arr, left, j);
+
+  quickSort(arr, left, j - 1);
+  quickSort(arr, j + 1, right);
+}
+```
+
+<!-- page -->
+
+## 总结一下
+
+1. 我们今天介绍了五种排序方法
+2. 每种方法都需要计算时间复杂度和空间复杂度
+3. 排序的实现和数据结构有很大关系
+4. 把大问题分解成小问题很可能降低复杂度
+5. 思路很重要
+
+<!-- page -->
+
+### 面试时为什么要考算法？
+
+1. 算法是基础，通过算法考核最容易判断候选人的用功程度
+2. 实际开发中，写基础算法的机会不多，但判断方案优劣的频率很高
+3.
+
 <!-- page -->
 
 ## 现实中的排序
 
 <!-- page -->
 
-### 比较与运算符顺序
+### 比较运算符
+
+1. 数字按值进行比较
+2. 字符串一位一位，逐个按照 Unicode 比较
+3. 两个变量除非指向同一个对象，不然不相等
+4. “等于”运算分为全等 `===` 和等 `==`
+5. `>` `<` 会调用对象的 `.valueOf()` 方法取值后比较
 
 <!-- page -->
 
 ### `Array.prototype.sort()`
 
+用法：
+
+```javascript
+arr.sort([compareFunction]);
+```
+
+其中：
+
+1. compareFunction 可为空，此时，按照“字符比较”排序
+2. 否则，以此函数的结果排序
+
+<!-- section -->
+
+```javascript
+arr.sort( (a, b) => {
+  return a - b;
+});
+```
+
+比较函数（compareFunction）的返回值
+
+1. 为负，a 在 b 前
+2. 为正，b 在 a 前
+3. 为 0，参与比较的元素顺序不变
+
 <!-- page -->
 
-### 排序的稳定性
+### `Array.prototype.sort()` 的实现
 
-<!-- page-->
+1. 基本上可以认为是快速排序的优化版本
+2. 以特定算法对多个值取中间值来建立每次的基准值
+3. 对小数组直接用插入排序
+4. 对小分区采用递归，对大分区采用循环，降低递归深度，避免爆栈
+
+<!-- page -->
+
+## 算法题
+
+1. 有一组任意数字，取 Top3，怎么取最方便？
+2. 给一本英语字典，找出所有变位词（比如 deposit 和 topside）。<small>（编程珠玑）</small>
+
+<!-- page -->
+
+### 1. 有一组任意数字，取 Top3，怎么取最方便？
+
+<!-- section -->
+
+答案：
+
+最直接的做法是3次遍历，复杂度 O(n) + O(n - 1) + O(n - 2) = O(3n-3)。
+
+最快的应该是堆排序，复杂度 O(n) + O(logN) * 3 = O(n + 3 * logN)
+
+<!-- page -->
+
+### 2. 给一本英语字典，找出所有变位词
+
+答案：
+
+假定这本字典里有 N 个单词，我们需要遍历它，并且给予每个单词一个指纹。
+
+比如 meathill = m1e1a1t1h1i1l2 = a1e1h1i1l2t1m1
+
+然后把所有单词按照指纹归档。即可。
 
 ## 总结
 
@@ -371,9 +557,11 @@ Q&A
 
 <!-- page -->
 
-工具书：
+实体书：
 
-* [表达式与运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators)
+* [编程珠玑]()
+* [算法的乐趣]()
+* [算法（第4版）]()
 
 <!-- page -->
 
@@ -384,4 +572,5 @@ Q&A
 * [插入排序](https://zh.wikipedia.org/wiki/插入排序)
 * [堆排序](https://zh.wikipedia.org/wiki/堆排序)
 * [快速排序](https://zh.wikipedia.org/zh/快速排序)
+* [内省排序](https://zh.wikipedia.org/wiki/内省排序)
 * [系统性学习与碎片化学习](http://blog.meathill.com/tech/systemic-vs-fragmentization.html)
