@@ -6,6 +6,8 @@ const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
 const stylus = require('gulp-stylus');
 const clean = require('gulp-clean-css');
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
 const {compiler, toCDN} = require('reveal-markdown-compiler');
 const PATH_REG = /\.\/node_modules\/([\w.\-]+)\//g;
 const DOC = 'docs/';
@@ -16,9 +18,10 @@ gulp.task('clear', () => {
 
 gulp.task('js', () => {
   return gulp.src('app/main.js')
+    .pipe(webpackStream(require('./webpack.config.prod'), webpack))
     .pipe(replace(PATH_REG, toCDN))
     .pipe(uglify())
-    .pipe(gulp.dest(`${DOC}app/`))
+    .pipe(gulp.dest(`${DOC}js/`))
 });
 
 gulp.task('stylus', () => {

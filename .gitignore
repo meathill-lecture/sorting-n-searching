@@ -6,6 +6,7 @@ node_modules
 
 # build
 /css
+/js
 
 # temp
 /tmp

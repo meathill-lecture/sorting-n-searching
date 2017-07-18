@@ -4,7 +4,8 @@
   "description": "A tutorial for JavaScript sorting and searching",
   "scripts": {
     "start": "live-server --port=8001 --host=localhost --ignore=.git,node_modules,styl",
-    "watch:stylus": "mkdir css & stylus -m -w styl/screen.styl -o css/"
+    "watch:stylus": "mkdir css & stylus -m -w styl/screen.styl -o css/",
+    "webpack": "webpack"
   },
   "author": {
     "name": "Meathill",
@@ -15,8 +16,10 @@
     "type": "git",
     "url": "git@github.com:meathill-lecture/sorting-n-searching.git"
   },
+  "homepage": "https://meathill-lecture.github.io/sorting-n-searching/",
   "license": "(CC-BY-NC-ND-4.0 OR MIT)",
   "devDependencies": {
+    "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
     "del": "^3.0.0",
@@ -32,7 +35,9 @@
     "meathill-reveal-theme": "^0.2.1",
     "reveal-markdown-compiler": "^1.2.0",
     "reveal.js": "^3.5.0",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.2",
+    "webpack": "^3.3.0",
+    "webpack-stream": "^3.2.0"
   },
   "dependencies": {
     "underscore": "^1.8.3"
