@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <title>sorting and searching</title>
+  <meta name="keywords" content="javascript,排序,算法,排序算法,快速排序,归并排序,堆排序,冒泡排序,插入排序">
+  <meta name="description" content="从事前端开发的同学很多从页面仔入门，比如说我，自学比例很大，有些时候会无意中忽视一些基础，比如算法、数据结构。这些欠缺在某些时候就会显得很致命，比如说面试，或者处理大量数据的场景。所以希望这样的一场分享能够帮助大家夯实原本不太扎实的基础，将来的开发之路更加顺畅。">
+  <meta name="author" content="Meathill <meathill@gmail.com>">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="//cdn.staticfile.org/reveal.js/3.5.0/css/reveal.min.css">
+  <link rel="stylesheet" href="//cdn.staticfile.org/reveal.js/3.5.0/css/theme/blood.min.css">
+  <link rel="stylesheet" href="//cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/darcula.min.css">
+  <link rel="stylesheet" href="//static.meathill.com/reveal-theme/css/meathill-reveal-theme.min.css">
+  <link href="//fonts.lug.ustc.edu.cn/css?family=Source+Code+Pro" rel="stylesheet">
+  <link rel="stylesheet" href="./css/screen.css">
+</head>
+<body class="sf">
+<div class="reveal">
+  <div class="slides">
+    <section><h3 id="javascript-">JavaScript 面试攻略</h3><h1 id="-">排序与搜索</h1><h4 id="-meathill-https-weibo-com-meathill-"><a href="https://weibo.com/meathill/">@meathill</a></h4></section><section><section><h2>关于作者</h2></section><section><p><img src="http://qiniu.meathill.com/wp-content/uploads/2016/07/20160607_005422423_iOS-825x510.jpg" height="400" class="author-avatar"></p><p>大家好，我是翟路佳。全栈工程师，编程爱好者，喜欢分享。</p></section><section><p>我今年的首要目标是成为一名合格的讲师，帮助尽可能多的同学获得进步。</p><p>经常出没于：</p><ul><li><a href="http://blog.meathill.com">博客：http://blog.meathill.com</a></li><li><a href="http://weibo.com/meathill">微博：https://weibo.com/meathill/</a></li><li><a href="https://github.com/meathill-lecture">我的其它分享 https://github.com/meathill-lecture</a></li></ul></section></section><section><h2 id="-">教学目标</h2><ol><li>了解常见排序算法</li><li>了解算法复杂度的计算</li><li>学会解算法题</li></ol></section><section><h2 id="-">课程大纲</h2><ol><li>用冒泡排序热身吧</li><li>然后试一下插入排序</li><li>接着是堆排序</li><li>再来是归并排序</li><li>最后是快速排序</li><li>变量类型转换</li><li>来做几道算法题</li><li>课后作业</li></ol></section><section><h2 id="-">用冒泡排序热身吧</h2></section><section><section><h2 id="-">冒泡排序</h2><blockquote><p>冒泡排序是一种简单的排序算法。它重复地走访要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p></blockquote></section><section><ol><li>假设有一个长度为 N 的数组 <code>arr</code>，需要降序排列</li><li>先比较 <code>arr[0]</code> 与 <code>arr[1]</code>，如果 <code>arr[0] &lt; arr[1]</code> 就交换它们的位置</li><li>再比较 <code>arr[1]</code> 与 <code>arr[2]</code>，如果 <code>arr[1] &lt; arr[2]</code> 就交换它们的位置</li><li>重复2~3，直至对比完所有元素，此时最小值应该处于数组最后</li><li>重复2~4，不过每次（第M次）只需要比较到 <code>arr[N-M]</code> 即可</li><li>最后数组完成降序排序</li></ol></section><section><p>完成后的代码如下：</p><pre><code class="lang-javascript">let arr = [&#39;待&#39;, &#39;排&#39;, &#39;序&#39;, &#39;数&#39;, &#39;组&#39;, ...];
+
+for (let i = 0, len = arr.length - 1; i &lt; len; i++) {
+  for (let j = 0, jlen = len - i; j &lt; jlen; j++) {
+    if (arr[j] &lt; arr[j + 1]) {
+      let tmp = arr[j];
+      arr[j] = arr[j + 1];
+      arr[j + 1] = tmp;
+    }
+  }
+}
+</code></pre></section></section><section><p>跑几个例子试一下：</p><p><code>./sample/bubble.js</code></p></section><section><p>从<a href="#/5/2">代码</a>中我们可以知道，冒泡排序第1次对比了 N-1 次，第2次对比 N - 2 次....</p><p>所以是一个等差数列相加：</p><pre><code>(N - 1) + (N -2) + .... + 2 + 1
+  = (N - 1) / 2 * N
+  = (N^2 - N) / 2
+</code></pre><p><strong>于是，冒泡排序的时间复杂度记为：O(n<sup>2</sup>)</strong>。</p><p>同时，它的空间复杂度为：S(1)。</p></section><section><p><strong>时间复杂度</strong> 与 <strong>空间复杂度</strong> 是我们评价一个算法的主要指标，大部分的优化都试图降低这两个复杂度。</p><p>通常来说，很少有同时降低时间复杂度与空间复杂度的算法。</p><p>大部分优化都是时间换空间或者空间换时间。</p></section><section><h2 id="-">继续研究排序</h2></section><section><section><h2 id="-">插入排序</h2><blockquote><p>假设数组是有序的，那么只需要扫描数组，找到比要插入的数大/小的位置，插入新值，即可。</p><p>没有有序数组，那就构建有序数组，即可。</p></blockquote></section><section><ol><li>一个数组 arr，需要升序排列</li><li>数组第一个值视为已排序，用 <code>arr[1]</code> 与之比较，如果 <code>arr[0] &gt; arr[1]</code>，就把 <code>arr[1]</code> 插入 <code>arr[0]</code> 的前面</li><li>此时可以视作前两个值已排序，用 <code>arr[2]</code> 与它们比较，如果有比 <code>arr[2]</code> 大的，就把 <code>arr[2]</code> 插到它前面</li><li>重复2~3，直至循环到最后一个数字</li></ol></section><section><p>JavaScript 表示如下：</p><pre><code class="lang-javascript">for (let i = 1, len = arr.length; i &lt; len; i++) {
+  for (let j = 0, jlen = i; j &lt; jlen; j++) {
+    if (arr[i] &lt; arr[j]) {
+      arr = arr.splice(j, 0, arr[i]);
+      break;
+    }
+  }
+}
+</code></pre></section><section><p>从 <code>break</code> 可以看出，插入排序的时间复杂度并不稳定。</p><ul><li>最好情况，本身是降序数组，改为升序，每次只扫描一个数，结果运算 N - 1 次，即 O(N)</li><li>最差情况，本身是升序数组，每次都要全扫描，结果运算 (N^2 - N)/2 次，即 O(N<sup>2</sup>)，和冒泡一样</li></ul><p>不过，因为一直在原有数组上操作，所以其空间复杂度是 O(1)。</p></section><section><p>很多排序算法都有 <strong>最好情况</strong> 和 <strong>最差情况</strong>，这也是我们挑选算法和做优化时必须注意的。</p></section></section><section><h2 id="-">改造插入排序！</h2><p>既然数组部分有序，对于有序的部分，其实不用扫描这么麻烦。</p><p>我们可以用<strong>“二分查找法”</strong>来找到插入的位置。</p></section><section><section><h2 id="-">二分查找法</h2><p>对于一段长度为 N 的有序数组 arr，要查找最合适插入 M 的位置</p><ol><li>先对比 <code>arr[N / 2]</code></li><li>如果 <code>M &lt; arr[N / 2]</code> 则继续对比 <code>arr[N / 4]</code>；否则，对比 <code>arr[N * 3 / 4]</code></li><li>重复2，直到下一次要对比的集合中只有个1个元素</li><li>对比最后的元素，确定位置</li></ol></section><section><p>二分查找法是最简单的检索方法。它的算法复杂度是 O(logN)。</p><p>它的 JavaScript 实现如下：</p><pre><code class="lang-javascript">function find(num, arr) {
+  function binarySearch(left, right) {
+    if (left &gt; right) {
+      return -1;
+    }
+    if (right - left &lt;= 1) {
+      return num &gt; left ? right : left;
+    }
+    let mid = right + left &gt;&gt; 1;
+    if (num &lt;= arr[mid]) {
+      return binarySearch(left, mid);
+    } else {
+      return binarySearch(mid + 1, right);
+    }
+  }
+
+  return binarySearch(0, arr.length - 1);
+}
+</code></pre></section><section><p>用 Debug 看一下效果：</p><p><code>./sample/insert.js</code></p></section><section><p>使用二分查找法改造插入排序之后，变为：</p><pre><code class="lang-javascript">for (let i = 1, len = arr.length; i &lt; len; i++) {
+  let index = find(arr[i], arr.slice(0, i));
+  arr.splice(index, 0, arr[i]);
+  arr.splice(i, 1);
+}
+</code></pre></section><section><p>改造之后的“二分查找插入排序”的时间复杂度就变成：</p><p>log1 + log2 + log3 + .... + logN ≈ O(NlogN)</p><p>它不再有最好情况和最坏情况。</p><p>其空间复杂度不变。</p></section></section><section><p>注意：我们所有的复杂度，都仅仅建立在排序算法之上，<strong>没有包含数组本身的操作！</strong>所以，今天我们说的复杂度和实际复杂度会有出入。</p><p>具体的出入大小，需要看运行环境的实现。</p><p>仅就“二分查找插入排序”而言，移动数组元素的成本很高，所以它的事件复杂度并不低。</p></section><section><section><h2 id="-">堆排序</h2><blockquote><p>堆排序是利用“堆”这种数据结构的特性进行排序的算法。</p></blockquote></section><section><p>堆可以视作一棵完全二叉树，它满足：</p><ol><li>任何节点最多有两个子节点（二叉树）</li><li>除了最底层意外，每一层都是满的（二叉树）</li><li>任意节点，它的值总是大于/小于它父节点的值（堆）</li><li>把它用一维数组表示，任意节点 i 的左节点位置是2i+1，右节点是 2i+2</li></ol></section></section><section><section><p>如果有了堆，那么对其排序是很简单的：</p><ol><li>取出根节点（最大/最小）</li><li>把最后一个节点放到根节点的位置上</li><li>调整顺序，使其恢复堆的状态</li><li>重复这个过程，直至完成排序</li></ol></section><section><p>构造堆</p><pre><code class="lang-javascript">function maxHeapify(arr, index, heapSize) {
+  let max = index;
+  let left = index * 2 + 1;
+  let right = index * 2 + 2;
+
+  let big = right &lt; heapSize &amp;&amp; arr[right] &gt; arr[left] ?
+            right : left;
+
+  if (big &lt; heapSize &amp;&amp; arr[index] &lt; arr[big]) {
+    max = big;
+  }
+
+  if (max !== index) {
+    swap(arr, max, index);
+    maxHeapify(arr, index, heapSize);
+  }
+}
+
+// 从最后一个父节点开始遍历，将其转化为“最大堆”
+for (let i = arr.length &gt;&gt; 1; i &gt;= 0; i--) {
+  maxHeapify(arr, i, arr.length);
+}
+</code></pre></section><section><p>排序</p><pre><code class="lang-javascript">for (let i = arr.length - 1; i &gt; 0; i--) {
+  swap(0, i);
+  maxHeapify(arr, 0, i - 1);
+}
+</code></pre></section></section><section><section><h3 id="-">堆排序的时间复杂度</h3><p>因为构建堆和排序是分开的，所以可以分开计算，然后相加。</p><pre><code>总复杂度 = 构建堆 + 排序
+</code></pre></section><section><p>构建堆：</p><ol><li>从 N/2 处开始构建</li><li>每个节点最大计算次数是：（总深度 - 节点深度） * 2</li><li>每个节点最小计算次数是：2</li><li>（偷懒省去证明过程）所以时间复杂度是 O(N)</li></ol></section><section><p>排序：</p><ol><li>每次从上到下调整，实际上是 logN</li><li>共计 N - 1 次，故为 （N - 1）logN</li></ol></section><section><p>合并：</p><p>(N - 1)logN + N ≈ NlogN</p></section><section><p>很明显，堆排序的时间复杂度是 O(1)。</p></section></section><section><h2 id="-">堆排序带来的启示</h2><ol><li>算法和数据结构息息相关</li><li>合理构建数据结构可以改进算法</li><li>时间复杂度计算中，加法和乘法差距巨大</li></ol></section><section><section><h2 id="-">归并排序</h2><blockquote><p>归并排序是分治法的一种体现。分治法的思路是：把一个大问题分解成若干小问题，分别解决之后再合并回大问题。</p><p>这种思路一方面可能降低算法的复杂度；另一方面，把问题分解，可以用有限的资源解决较小的问题，变不可能为可能。</p><p>分治法的核心在于分解和合并。</p></blockquote></section><section><ol><li>对每两个相邻的元素进行排序，形成 floor(N/2) 个有序子段</li><li>对每两个子段进行归并，形成 floor(N/4) 个有序子段</li><li>重复 2 直至归并成一个数组，则这个数组已经完成排序</li></ol></section><section><pre><code class="lang-javascript">function mergeSort(arr) {
+  function merge(left, right) {
+    let final = [];
+    while (left.length &amp;&amp; right.length) {
+      final.push(left[0] &lt; right[0] ?
+          left.shift() : right.shift());
+    }
+    return final.concat(left, right);
+  }
+
+  let len = arr.length;
+  if (len &lt; 2) return this;
+  let mid = len &gt;&gt; 1;
+  return merge(mergeSort(arr.slice(0, mid)),
+               mergeSort(arr.slice(mid)));
+}
+</code></pre></section></section><section><p>很明显，快速排序的时间复杂度是 O(NlogN)：</p><ol><li>每次扫描需要扫描的数字是 N</li><li>共需扫描 logN 次</li><li>所以 T(N) = O(NlogN)</li></ol></section><section><section><h2 id="-">快速排序</h2><blockquote><p>快速排序是分治法的另一种体现。</p></blockquote><ol><li>挑一个元素，称为“基准”（pivot）</li><li>遍历数组，把小的挪到基准的左边，大的挪到基准的右边</li><li>递归的处理两个子数组</li></ol></section><section><p>我们通常使用“原地排序”（in-place）版本，即选定一个元素，把它移到最左边或最右边，然后遍历数组。或者干脆拿最左边或者最右边的元素作为基准元素。</p><pre><code class="lang-javascript">function quickSort(arr, left, right) {
+  let pivot = arr[left];
+  let current = left + 1;
+  for (let i = current; i &lt;= right; i++) {
+    if (arr[i] &lt;= pivot) {
+      swap(arr, i, current);
+      current++;
+    }
+  }
+  swap(arr, left, current);
+
+  quickSort(arr, left, current - 1);
+  quickSort(arr, current + 1, right);
+}
+</code></pre></section></section><section><section><p>最理想的情况下，快速排序的时间复杂度为 O(NlogN)：</p><ol><li>每次扫描全部元素，为 O(N)</li><li>如果每次都能把数组均分，那么共遍历 logN 次</li><li>即 O(NlogN)</li></ol></section><section><p>最坏的情况下，每次都选到一个边界值，时间复杂度就是 O(N<sup>2</sup>)（=冒泡）。</p></section><section><p>那么问题就是如何让数组均分。</p></section></section><section><section><p>一般来说，面对一个很随机的数组，可以取随机数。</p><p>生产实践中，数组可能不那么随机，可以考虑“三数取中”。</p><p>如果数组很长，可以隔一段取一个，然后对所有取出的值取中。</p></section><section><blockquote><p>考虑一种极端情况：一个全部元素都相同的数组。</p></blockquote><p>沿用前面的“单向扫描法”，复杂度会衰弱到 O(N<sup>2</sup>)。</p><p>此时最好用“双向扫描法”，可以恢复到 O(NlogN)：</p><ol><li>从数组左侧扫描，遇到 <code>&gt;= pivot</code>，停下</li><li>从数组右侧扫描，遇到 <code>&lt;= pivot</code>，停下</li><li>交换两个值</li><li>继续从左侧扫描，重复 1~2</li></ol></section><section><pre><code class="lang-javascript">function quickSort(arr, left, right) {
+  let pivot = arr[left];
+  let i = current = left + 1;
+  let j = right;
+  while (i &lt;= j) {
+    while(i &lt;= right &amp;&amp; arr[i] &lt; pivot) {
+      i++;
+    }
+    while(x[j] &gt; pivot) {
+      j--;
+    }
+    if (i &lt;= j) {
+      swap(arr, i, j);
+    }
+  }
+  swap(arr, left, j);
+
+  quickSort(arr, left, j - 1);
+  quickSort(arr, j + 1, right);
+}
+</code></pre></section></section><section><h2 id="-">总结一下</h2><ol><li>我们今天介绍了五种排序方法</li><li>每种方法都需要计算时间复杂度和空间复杂度</li><li>排序的实现和数据结构有很大关系</li><li>把大问题分解成小问题很可能降低复杂度</li><li>思路很重要，一定要理解其逻辑</li></ol></section><section><h3 id="-">面试时为什么要考算法？</h3><ol><li>算法是基础，通过算法考核最容易判断候选人的用功程度</li><li>业务无关，和技术背景关系不大，最有可能应用到新工作当中</li><li>实际开发中，写基础算法的机会不多，但判断方案优劣的频率很高</li></ol></section><section><h2 id="-">现实中的排序</h2></section><section><h3 id="-">比较运算符</h3><ol><li>数字按值进行比较</li><li>字符串一位一位，逐个按照 Unicode 比较</li><li>两个变量除非指向同一个对象，不然不相等</li><li>“等于”运算分为全等 <code>===</code> 和等 <code>==</code></li><li><code>&gt;</code> <code>&lt;</code> 会调用对象的 <code>.valueOf()</code> 方法取值后比较</li></ol></section><section><section><h3 id="-array-prototype-sort-"><code>Array.prototype.sort()</code></h3><p>用法：</p><pre><code class="lang-javascript">arr.sort([compareFunction]);
+</code></pre><p>其中：</p><ol><li><code>compareFunction</code> 可为空，此时，按照“字符比较”排序</li><li>否则，以 <code>compareFunction</code> 的结果排序</li></ol></section><section><pre><code class="lang-javascript">arr.sort( (a, b) =&gt; {
+  return a - b;
+});
+</code></pre><p>比较函数（compareFunction）的返回值</p><ol><li>为负，a 在 b 前</li><li>为正，b 在 a 前</li><li>为 0，参与比较的元素顺序不变</li></ol></section></section><section><h3 id="v8-">V8 中的实现</h3><ol><li>基本上可以认为是快速排序的优化版本</li><li>以特定算法对多个值取中间值来建立每次的基准值<ol><li>&lt;1000，三值取中</li><li>>1000，每隔 200+ 取一个，然后取中</li></ol></li><li>对小数组（&lt;10）直接用插入排序</li><li>对小分区采用递归，对大分区采用循环，降低递归深度，避免爆栈</li></ol></section><section><h2 id="-">算法题</h2><ol><li>优化一个循环</li><li>有一组任意数字，取 Top3，怎么取最方便？</li><li>给一本英语字典，找出所有变位词（比如 deposit 和 topside）。<small>（编程珠玑）</small></li></ol></section><section><section><h3 id="1-">1. 优化一个循环</h3><pre><code class="lang-javascript">for (let i = 0; i &lt; 100000000; i++) {
+  if (i % 2 === 0) {
+    // do something
+  }
+}
+</code></pre></section><section><p>答：</p><pre><code class="lang-javascript">for (let i = 0; i &lt; 100000000; i += 2) {
+  // do something
+}
+</code></pre></section></section><section><section><h3 id="2-top3-">2. 有一组任意数字，取 Top3，怎么取最方便？</h3></section><section><p>答案：</p><p>最直接的做法是3次遍历，复杂度 O(n) + O(n - 1) + O(n - 2) = O(3n-3)。</p><p>最快的应该是堆排序，复杂度 O(n) + O(logN) <em>3 = O(n + 3 </em>logN)</p></section></section><section><section><h3 id="3-">3. 给一本英语字典，找出所有变位词</h3></section><section><p>答案：</p><p>假定这本字典里有 N 个单词，我们需要遍历它，并且给予每个单词一个指纹。</p><p>比如 meathill = m1e1a1t1h1i1l2 = a1e1h1i1l2t1m1</p><p>然后把所有单词按照指纹归档。即可。</p></section></section><section><section><h2 id="-">概念总结</h2><ul><li>时间复杂度</li><li>空间复杂度</li><li>最好情况与最坏情况</li><li>分治法</li><li>变量类型转换</li></ul></section><section><h3 id="-">未提及的相关概念</h3><ul><li>排序稳定性</li><li>尾递归</li><li>睡眠排序</li><li>猴子排序</li></ul></section></section><section><blockquote><p>我认为排序算法不用背，尤其作为前端，但是理解这些概念、记住实现思路非常重要。时不时的写一写，锻炼一下动手能力也是很重要的。</p></blockquote></section><section><p>Q&amp;A</p></section><section><p>实体书：</p><ul><li><a href="">编程珠玑</a></li><li><a href="">算法的乐趣</a></li><li><a href="">算法（第4版）</a></li></ul></section><section><p>参考阅读：</p><ul><li><a href="http://www.zhouhua.info/2015/06/18/quicksort/">深入了解javascript的sort方法</a></li><li><a href="https://zh.wikipedia.org/zh/冒泡排序">冒泡排序</a></li><li><a href="https://zh.wikipedia.org/wiki/插入排序">插入排序</a></li><li><a href="https://zh.wikipedia.org/wiki/堆排序">堆排序</a></li><li><a href="https://zh.wikipedia.org/zh/快速排序">快速排序</a></li><li><a href="https://zh.wikipedia.org/wiki/内省排序">内省排序</a></li><li><a href="http://blog.meathill.com/tech/systemic-vs-fragmentization.html">系统性学习与碎片化学习</a></li></ul></section>
+  </div>
+</div>
+<aside id="sf-aside">
+  <h2>JavaScript<br>
+    面试攻略：<br>
+    排序与搜索
+  </h2>
+  <div class="qrcodes">
+    <h4>观看幻灯片</h4>
+    <p>
+      <img src="./img/slide.gif" class="qrcode">
+    </p>
+    <h4>进入 SF 讲堂</h4>
+    <p>
+      <img src="./img/sf.gif" class="qrcode">
+    </p>
+  </div>
+  <ul>
+    <li><a href="http://weibo.com/meathill"><i class="fa fa-weibo fa-fw"></i> 我的微博</a></li>
+    <li><a href="http://blog.meathill.com/"><i class="fa fa-rss fa-fw"></i> 我的博客</a></li>
+    <li><a href="https://segmentfault.com/u/meathill">我的 SegmentFault</a></li>
+  </ul>
+</aside>
+<script src="//cdn.staticfile.org/reveal.js/3.5.0/lib/js/head.min.js"></script>
+<script src="//cdn.staticfile.org/reveal.js/3.5.0/js/reveal.min.js"></script>
+<script src="./app/main.js"></script>
+</body>
+</html>
