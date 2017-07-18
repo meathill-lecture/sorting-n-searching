@@ -1,19 +1,6 @@
-var search = location.search;
-var query = {};
-if (search) {
-  search = search.substr(1);
-  search = search.split('&');
-  for (var i = 0, len = search.length; i < len; i++) {
-    var kv = search[i].split('=');
-    if (!isNaN(kv[1])) {
-      kv[1] = Number(kv[1]);
-    }
-    if (/^true|false$/i.test(kv[1])) {
-      kv[1] = Boolean(kv[1]);
-    }
-    query[kv[0]] = kv[1];
-  }
-}
+import { getSearchParams, load } from './helper';
+
+let query = getSearchParams(location.search);
 
 Reveal.initialize({
   history: true,
@@ -43,9 +30,9 @@ Reveal.initialize({
 });
 
 if (query.print) {
-  var link = document.createElement( 'link' );
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = './node_modules/reveal.js/css/print/pdf.css';
-  document.getElementsByTagName( 'head' )[0].appendChild( link );
+  load('./node_modules/reveal.js/css/print/pdf.css');
+}
+
+if (query.platform) {
+  document.body.classList.add(query.platform);
 }

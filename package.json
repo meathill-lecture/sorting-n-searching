@@ -17,6 +17,8 @@
   },
   "license": "(CC-BY-NC-ND-4.0 OR MIT)",
   "devDependencies": {
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
     "del": "^3.0.0",
     "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
