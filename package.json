@@ -32,7 +32,7 @@
     "gulp-uglify": "^3.0.0",
     "highlight.js": "^9.12.0",
     "marked": "^0.3.6",
-    "meathill-reveal-theme": "^0.2.1",
+    "meathill-reveal-theme": "^0.2.2",
     "reveal-markdown-compiler": "^1.2.0",
     "reveal.js": "^3.5.0",
     "run-sequence": "^1.2.2",

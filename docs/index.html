@@ -11,11 +11,11 @@
   <link rel="stylesheet" href="//cdn.staticfile.org/reveal.js/3.5.0/css/theme/blood.min.css">
   <link rel="stylesheet" href="//cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/darcula.min.css">
-  <link rel="stylesheet" href="//static.meathill.com/reveal-theme/css/meathill-reveal-theme.min.css">
+  <link rel="stylesheet" href="http://static.meathill.com/reveal-theme/css/meathill-reveal-theme.min.css">
   <link href="//fonts.lug.ustc.edu.cn/css?family=Source+Code+Pro" rel="stylesheet">
   <link rel="stylesheet" href="./css/screen.css">
 </head>
-<body class="sf">
+<body>
 <div class="reveal">
   <div class="slides">
     <section><h3 id="javascript-">JavaScript 面试攻略</h3><h1 id="-">排序与搜索</h1><h4 id="-meathill-https-weibo-com-meathill-"><a href="https://weibo.com/meathill/">@meathill</a></h4></section><section><section><h2>关于作者</h2></section><section><p><img src="http://qiniu.meathill.com/wp-content/uploads/2016/07/20160607_005422423_iOS-825x510.jpg" height="400" class="author-avatar"></p><p>大家好，我是翟路佳。全栈工程师，编程爱好者，喜欢分享。</p></section><section><p>我今年的首要目标是成为一名合格的讲师，帮助尽可能多的同学获得进步。</p><p>经常出没于：</p><ul><li><a href="http://blog.meathill.com">博客：http://blog.meathill.com</a></li><li><a href="http://weibo.com/meathill">微博：https://weibo.com/meathill/</a></li><li><a href="https://github.com/meathill-lecture">我的其它分享 https://github.com/meathill-lecture</a></li></ul></section></section><section><h2 id="-">教学目标</h2><ol><li>了解常见排序算法</li><li>了解算法复杂度的计算</li><li>学会解算法题</li></ol></section><section><h2 id="-">课程大纲</h2><ol><li>用冒泡排序热身吧</li><li>然后试一下插入排序</li><li>接着是堆排序</li><li>再来是归并排序</li><li>最后是快速排序</li><li>变量类型转换</li><li>来做几道算法题</li><li>课后作业</li></ol></section><section><h2 id="-">用冒泡排序热身吧</h2></section><section><section><h2 id="-">冒泡排序</h2><blockquote><p>冒泡排序是一种简单的排序算法。它重复地走访要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p></blockquote></section><section><ol><li>假设有一个长度为 N 的数组 <code>arr</code>，需要降序排列</li><li>先比较 <code>arr[0]</code> 与 <code>arr[1]</code>，如果 <code>arr[0] &lt; arr[1]</code> 就交换它们的位置</li><li>再比较 <code>arr[1]</code> 与 <code>arr[2]</code>，如果 <code>arr[1] &lt; arr[2]</code> 就交换它们的位置</li><li>重复2~3，直至对比完所有元素，此时最小值应该处于数组最后</li><li>重复2~4，不过每次（第M次）只需要比较到 <code>arr[N-M]</code> 即可</li><li>最后数组完成降序排序</li></ol></section><section><p>完成后的代码如下：</p><pre><code class="lang-javascript">let arr = [&#39;待&#39;, &#39;排&#39;, &#39;序&#39;, &#39;数&#39;, &#39;组&#39;, ...];
