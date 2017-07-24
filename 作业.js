@@ -66,7 +66,7 @@ function Judge_1(arr, t, k) {
 	}
 }
 
-//2-2 二分查找
+//2-2 二分查找 ,事件复杂度O(nlogn)
 function binarySearch(num, arr) {
 	var low = 0,
 		high = arr.length - 1,
