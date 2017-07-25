@@ -138,7 +138,7 @@ function paritition(arr, low, high) {
 		swap(arr, low, high);
 	}
 	if (arr[m] > arr[high]) {
-		swap(arr, low, high);
+		swap(arr, m, high);
 	}
 	if (arr[m] > arr[low]) {
 		swap(arr, m, low);
