@@ -19,25 +19,23 @@
   "homepage": "https://meathill-lecture.github.io/sorting-n-searching/",
   "license": "(CC-BY-NC-ND-4.0 OR MIT)",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "del": "^3.0.0",
+    "babel-loader": "^8.0.6",
+    "del": "^5.1.0",
     "gulp": "^4.0.2",
-    "gulp-clean-css": "^3.10.0",
     "gulp-rename": "^1.4.0",
-    "gulp-replace": "^0.5.4",
     "gulp-stylus": "^2.7.0",
     "gulp-uglify": "^3.0.2",
-    "highlight.js": "^9.15.8",
-    "marked": "^0.6.2",
+    "highlight.js": "^9.15.10",
+    "marked": "^0.7.0",
     "meathill-reveal-theme": "^0.2.2",
-    "reveal-markdown-compiler": "^2.2.4",
+    "reveal-markdown-compiler": "^2.2.6",
     "reveal.js": "^3.8.0",
-    "webpack": "^4.33.0"
+    "webpack": "^4.39.3"
   },
   "dependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "font-awesome": "^4.7.0",
-    "lodash": "^4.17.13"
+    "lodash": "^4.17.15"
   }
 }
