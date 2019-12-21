@@ -21,20 +21,16 @@
   "devDependencies": {
     "babel-loader": "^8.0.6",
     "del": "^5.1.0",
-    "gulp": "^4.0.2",
-    "gulp-rename": "^1.4.0",
-    "gulp-stylus": "^2.7.0",
-    "gulp-uglify": "^3.0.2",
-    "highlight.js": "^9.15.10",
-    "marked": "^0.7.0",
+    "highlight.js": "^9.17.1",
+    "marked": "^0.8.0",
     "meathill-reveal-theme": "^0.2.2",
     "reveal-markdown-compiler": "^2.2.6",
     "reveal.js": "^3.8.0",
-    "webpack": "^4.39.3"
+    "webpack": "^4.41.4"
   },
   "dependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.15"
   }
