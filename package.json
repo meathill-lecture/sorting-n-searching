@@ -32,6 +32,6 @@
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "font-awesome": "^4.7.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   }
 }
