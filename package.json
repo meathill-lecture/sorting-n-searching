@@ -25,7 +25,7 @@
     "meathill-reveal-theme": "^0.2.2",
     "reveal-markdown-compiler": "^2.3.0",
     "reveal.js": "^4.2.1",
-    "webpack": "^5.67.0"
+    "webpack": "^5.76.0"
   },
   "dependencies": {
     "@babel/core": "^7.16.12",
